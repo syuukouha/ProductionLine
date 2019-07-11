@@ -20,6 +20,7 @@ public class MachineController : MonoBehaviour
     private Animator animator;
     private SteamVR_Action_Boolean TrigerAction = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("GrabPinch");
     private bool isPause = false;
+    private float timer = 0f;
 
     void Awake()
     {
@@ -45,6 +46,15 @@ public class MachineController : MonoBehaviour
 
         if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Reset"))
         {
+            //长按5秒清零
+            if (TrigerAction.GetState(SteamVR_Input_Sources.Any) && StartButton.isHovering)
+            {
+                timer += Time.deltaTime;
+                if (timer >= 5.0f)
+                {
+                    animator.SetBool("Start", false);
+                }
+            }
             if (TrigerAction.GetStateDown(SteamVR_Input_Sources.Any))
             {
                 if (PauseButton.isHovering)
@@ -91,7 +101,7 @@ public class MachineController : MonoBehaviour
     {
         if (StartButton.isHovering)
         {
-            ControllerButtonHints.ShowTextHint(StartButton.hoveringHand, TrigerAction, "启动");
+            ControllerButtonHints.ShowTextHint(StartButton.hoveringHand, TrigerAction, animator.GetBool("Start") ? "长按5s重启" : "启动");
         }
 
         if (LeftOnlyButton.isHovering)
