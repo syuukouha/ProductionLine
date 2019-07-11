@@ -989,7 +989,7 @@ namespace Valve.VR.InteractionSystem
 					{
 						if ( !isShowingHint )
 						{
-							ControllerButtonHints.ShowTextHint( hand, teleportAction, "Teleport" );
+							ControllerButtonHints.ShowTextHint( hand, teleportAction, "移动" );
 							prevBreakTime = Time.time;
 							prevHapticPulseTime = Time.time;
 						}
